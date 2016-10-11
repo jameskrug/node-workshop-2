@@ -6,7 +6,12 @@ function requestJson(theUrl, xFunction){
             xFunction(err);
         }
         else{
-            
+            try{
+                xFunction(null, JSON.parse(data.body));
+            }
+            catch(error){
+                xFunction(error);
+            }
         }
     })
 }
