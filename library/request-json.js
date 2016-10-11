@@ -3,6 +3,7 @@ var request = require("request");
 function requestJson(theUrl, xFunction){
     request(theUrl, function(err, data){
         if (err){
+            console.log("error 1");
             xFunction(err);
         }
         else{
@@ -10,12 +11,13 @@ function requestJson(theUrl, xFunction){
                 xFunction(null, JSON.parse(data.body));
             }
             catch(error){
+                console.log("error 2");
                 xFunction(error);
             }
         }
     });
 }
 
-module.export = {
+module.exports = {
     requestJson: requestJson
 }
