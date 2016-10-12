@@ -1,7 +1,6 @@
 var api = require("./library/synonyms.js");
 var prompt = require("prompt");
 var Table = require("cli-table");
-var table = new Table();
 var colors = require("colors");
 
 
@@ -17,29 +16,31 @@ prompt.get("Give me a word", function(err, data){
                 console.log("an even bigger error");
             }
             else{
-                var nounTable = new Table();
-                var verbTable = new Table();
-                var adjectiveTable = new Table();
+                var nouns = [];
+                var verbs = [];
+                var adjectives = [];
                 var theAnswers = JSON.parse(data.body);
                 if (theAnswers.noun){
                     theAnswers.noun.syn.forEach(function(x){
-                        nounTable.push({noun: [x]});
+                        nouns.push(x);
                     });
                 }
                 if (theAnswers.verb){
                     theAnswers.verb.syn.forEach(function(x){
-                        verbTable.push({verb: [x]});
+                        verbs.push(x);
                     });
                 }
                 if (theAnswers.adjective){
                     theAnswers.adjective.syn.forEach(function(x){
-                        adjectiveTable.push({adjective: [x]});
+                        adjectives.push(x);
                     });
                 
                 }
-                console.log(nounTable.toString());
-                console.log(verbTable.toString());
-                console.log(adjectiveTable.toString());
+                var table = new Table({
+                    head: ["Noun".yellow, "Adjective".yellow, "Verb".yellow]
+                });
+                table.push([nouns.join("\n"), verbs.join("\n"), adjectives.join("\n")]);
+                console.log(table.toString());
             }
         });
     }
